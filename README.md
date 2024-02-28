@@ -10,3 +10,5 @@ Install [`bun`](bun.sh) to build.
 $ bun i
 $ bun run build:package
 ```
+
+https://github.com/losnappas/chatgpt-webext
