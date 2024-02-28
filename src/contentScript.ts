@@ -20,5 +20,5 @@ import { waitUntil } from "async-wait-until";
 
 		ta.innerHTML = response.text;
 		ta.value = response.text;
-	}, 100);
+	}, 400);
 })();
