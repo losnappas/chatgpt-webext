@@ -20,5 +20,6 @@ import { waitUntil } from "async-wait-until";
 
 		ta.innerHTML = response.text;
 		ta.value = response.text;
-	}, 400);
+		ta.dispatchEvent(new Event("input", { bubbles: true }));
+	}, 700);
 })();

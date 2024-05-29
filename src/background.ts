@@ -37,16 +37,24 @@ browser.webRequest.onHeadersReceived.addListener(
 		for (const requestHeader of details.responseHeaders) {
 			switch (requestHeader.name) {
 				case "content-security-policy":
-					requestHeader.value = requestHeader.value?.replace(
-						"frame-ancestors",
-						`frame-ancestors ${extensionId}`,
-					);
+					requestHeader.value = requestHeader.value?.includes("frame-ancestors")
+						? requestHeader.value?.replace(
+								"frame-ancestors",
+								`frame-ancestors ${extensionId}`,
+						  )
+						: `${requestHeader.value} frame-ancestors ${extensionId}`;
 					break;
 			}
 		}
 		return { responseHeaders: details.responseHeaders };
 	},
-	{ urls: ["https://chat.openai.com/*"] },
+	{
+		urls: [
+			"https://chat.openai.com/*",
+			"https://auth.openai.com/*",
+			"https://chatgpt.com/*",
+		],
+	},
 	["blocking", "responseHeaders"],
 );
 

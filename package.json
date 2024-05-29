@@ -11,7 +11,7 @@
 		"start": "web-ext run -s out --firefox=firefox-developer-edition --start-url about:debugging"
 	},
 	"keywords": [],
-	"author": "THOUSAND-SKY",
+	"author": "losnappas",
 	"license": "UNLICENSED",
 	"devDependencies": {
 		"@biomejs/biome": "1.5.3",
