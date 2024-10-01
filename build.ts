@@ -1,7 +1,11 @@
 import { Glob } from "bun";
 import { copyFile } from "fs/promises";
 await Bun.build({
-	entrypoints: ["./src/background.ts", "./src/contentScript.ts"],
+	entrypoints: [
+		"./src/background.ts",
+		"./src/contentScript.ts",
+		"./src/contentScriptMain.ts",
+	],
 	outdir: "./out",
 	target: "browser",
 });

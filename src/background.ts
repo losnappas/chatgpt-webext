@@ -6,8 +6,6 @@ browser.contextMenus.create({
 	contexts: ["selection"],
 });
 
-const extensionId = browser.runtime.getURL("");
-
 let selectedText = "";
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
 	if (info.menuItemId === "chatgpt-webext-context-menu" && tab?.id) {
@@ -30,33 +28,6 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 	}
 	return { text: "I got nothing" };
 });
-
-browser.webRequest.onHeadersReceived.addListener(
-	(details) => {
-		if (!details.responseHeaders) return;
-		for (const requestHeader of details.responseHeaders) {
-			switch (requestHeader.name) {
-				case "content-security-policy":
-					requestHeader.value = requestHeader.value?.includes("frame-ancestors")
-						? requestHeader.value?.replace(
-								"frame-ancestors",
-								`frame-ancestors ${extensionId}`,
-						  )
-						: `${requestHeader.value} frame-ancestors ${extensionId}`;
-					break;
-			}
-		}
-		return { responseHeaders: details.responseHeaders };
-	},
-	{
-		urls: [
-			"https://chat.openai.com/*",
-			"https://auth.openai.com/*",
-			"https://chatgpt.com/*",
-		],
-	},
-	["blocking", "responseHeaders"],
-);
 
 function resetSelectedText(info: string) {
 	wait(5000).then(() => {

@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "ChatGPT popup",
-	"version": "1.5",
+	"version": "1.6",
 	"description": "Chatgpt popup",
 	"icons": {
 		"48": "icon.jpeg"
@@ -9,11 +9,6 @@
 	"permissions": [
 		"activeTab",
 		"contextMenus",
-		"webRequest",
-		"webRequestBlocking",
-		"webRequestFilterResponse",
-		"https://chat.openai.com/*",
-		"https://auth.openai.com/*",
 		"https://chatgpt.com/*"
 	],
 	"background": {
@@ -23,13 +18,18 @@
 	},
 	"browser_action": {
 		"default_title": "ChatGPT",
-		"default_popup": "popup.html"
+		"default_popup": "https://chatgpt.com"
 	},
 	"content_scripts": [
 		{
-			"matches": ["https://chat.openai.com/*", "https://chatgpt.com/*"],
-			"js": ["contentScript.js"],
-			"all_frames": true
+			"matches": ["https://chatgpt.com/*"],
+			"js": ["contentScript.js"]
+		},
+		{
+			"matches": ["https://chatgpt.com/*"],
+			"js": ["contentScriptMain.js"],
+			"run_at": "document_start",
+			"world": "MAIN"
 		}
 	]
 }

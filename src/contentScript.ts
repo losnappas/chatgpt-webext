@@ -1,4 +1,15 @@
-import { waitUntil } from "async-wait-until";
+Object.assign(document.documentElement.style, {
+	height: "590px",
+	width: "800px",
+	margin: "0",
+	padding: "0",
+});
+Object.assign(document.body.style, {
+	height: "590px",
+	width: "800px",
+	margin: "0",
+	padding: "0",
+});
 
 (async () => {
 	const response = await browser.runtime.sendMessage({
@@ -6,20 +17,5 @@ import { waitUntil } from "async-wait-until";
 	});
 	if (!response?.text) return;
 
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const ta = (await waitUntil(() => document.querySelector("textarea") as any, {
-		timeout: 10_000,
-	})) as HTMLTextAreaElement;
-
-	const int = setInterval(() => {
-		if (ta.value === response.text) {
-			clearInterval(int);
-			return;
-		}
-		ta.focus();
-
-		ta.innerHTML = response.text;
-		ta.value = response.text;
-		ta.dispatchEvent(new Event("input", { bubbles: true }));
-	}, 700);
+	window.postMessage({ message: response.text, type: "fromIsolatedWorld" });
 })();
